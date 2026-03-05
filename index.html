@@ -37,7 +37,6 @@
       align-items:stretch;
     }
 
-    /* Sidebar toggle (starts hidden) */
     .sidePanel{
       position:fixed;
       top:0; left:0;
@@ -53,7 +52,6 @@
     }
     .sidePanel.open{ transform: translateX(0); }
 
-    /* Push content down so it never sits under the hamburger button */
     .sideInner{
       padding: 72px 14px 16px 14px;
     }
@@ -138,7 +136,6 @@
       white-space:nowrap;
     }
 
-    /* Top-left toggle button */
     .hamburger{
       position:fixed;
       top:14px; left:14px;
@@ -166,7 +163,6 @@
     }
     .scrim.show{ display:block; }
 
-    /* Board */
     .boardWrap{
       width:100vw;
       height:100vh;
@@ -206,7 +202,6 @@
     .hintLine{ position:absolute; inset:0; pointer-events:none; }
     svg{ width:100%; height:100%; display:block; }
 
-    /* Lines (neutral) */
     .edge{
       stroke: rgba(255,255,255,0.82);
       stroke-width: 6;
@@ -218,7 +213,6 @@
       stroke-width: 3;
     }
 
-    /* White rings (ONLY circles on board) */
     .node{
       position:absolute;
       width:84px;
@@ -243,7 +237,6 @@
     }
     .node.empty{ font-size:0px; }
 
-    /* Layout-mode drag styling */
     .node.layout{
       cursor: grab;
       box-shadow:
@@ -253,7 +246,6 @@
     }
     .node.layout:active{ cursor: grabbing; }
 
-    /* Play-mode swap drag styling */
     .node.swap{
       cursor: grab;
       box-shadow:
@@ -271,7 +263,6 @@
         0 0 32px rgba(47,111,255,0.28);
     }
 
-    /* Custom builder edge-pick highlight */
     .node.pick{
       border-color: rgba(47,111,255,0.95) !important;
       box-shadow:
@@ -285,7 +276,6 @@
       50% { transform: translate(-50%, -50%) scale(1.05); }
     }
 
-    /* Glow to signify "needs change" */
     .node.needChange{
       border-color: rgba(251,191,36,0.98) !important;
       box-shadow:
@@ -304,7 +294,6 @@
       animation: pulseNeed 900ms ease-in-out infinite;
     }
 
-    /* Midpoint drop zones (NO CIRCLES) */
     .midDrop{
       position:absolute;
       width:110px;
@@ -315,7 +304,6 @@
       border-radius: 14px;
     }
 
-    /* Midpoint token (becomes a red circle once placed) */
     .midToken{
       position:absolute;
       width:78px;
@@ -357,7 +345,6 @@
       background: rgba(251,191,36,0.15);
     }
 
-    /* Bottom even tokens bar */
     .bottomBar{
       position:absolute;
       left:12px; right:12px;
@@ -400,7 +387,6 @@
       box-shadow: 0 16px 30px rgba(0,0,0,0.35);
     }
 
-    /* Board action buttons */
     .boardActions{
       position:absolute;
       top:12px;
@@ -418,7 +404,6 @@
     }
     .boardActions button:hover{ background: rgba(0,0,0,0.48); }
 
-    /* Win overlay */
     .overlay{
       position:fixed;
       inset:0;
@@ -591,7 +576,7 @@
   <div class="app">
     <div class="boardWrap">
       <div class="board" id="board">
-        <img id="bg" class="bgImg" alt="Animal puzzle background" />
+        <img id="bg" class="bgImg" alt="Animal puzzle background" decoding="async" fetchpriority="high" />
         <div class="vignette"></div>
 
         <div class="hintLine">
@@ -609,9 +594,6 @@
   </div>
 
   <script>
-    // ------------------------------------------------------------
-    // Layout templates
-    // ------------------------------------------------------------
     function makePlaceholderLayout(puzzleId, count){
       const circles = [];
       const edges = [];
@@ -693,9 +675,6 @@
       };
     }
 
-    // ------------------------------------------------------------
-    // PIXEL-PERFECT (your JSONs)
-    // ------------------------------------------------------------
     function makeSpiderLayout(){
       return {
         circles: [
@@ -828,9 +807,6 @@
       };
     }
 
-    // ------------------------------------------------------------
-    // Proper circle distribution (pixel-perfect where provided)
-    // ------------------------------------------------------------
     function makeGoatLayout(){
       return {
         circles: [
@@ -950,10 +926,6 @@
       };
     }
 
-    // ✅ PIXEL PERFECT HUMMINGBIRD (your JSON)
-    // Head->tail single connection is b1-b2
-    // Tail loop is b2-b9-b10-b11-b2
-    // Wings are separate component: b6-(b3-b4-b5) and b6-(b7-b8)
     function makeHummingbirdLayout(){
       return {
         circles: [
@@ -1026,36 +998,72 @@
       butterfly: makeButterflyLayout(),
     };
 
-   const PUZZLES = {
-  dragonfly: { name:"Dragonfly", img:"Dragonfly.jpg.webp", layoutKey:"animal_subtraction_dragonfly_white_midless_v5" },
-  starfish:  { name:"Starfish",  img:"starfish.jpg",       layoutKey:"animal_subtraction_starfish_white_midless_v6" },
-  seagull:   { name:"Seagull",   img:"seagull.jpg",        layoutKey:"animal_subtraction_seagull_v3" },
-  ant:       { name:"Ant",       img:"ant.jpg",            layoutKey:"animal_subtraction_ant_v3" },
+    const PUZZLES = {
+      dragonfly:   { name:"Dragonfly",    img:"dragonfly.webp",    layoutKey:"animal_subtraction_dragonfly_white_midless_v5" },
+      starfish:    { name:"Starfish",     img:"starfish.webp",     layoutKey:"animal_subtraction_starfish_white_midless_v6" },
+      seagull:     { name:"Seagull",      img:"seagull.webp",      layoutKey:"animal_subtraction_seagull_v3" },
+      ant:         { name:"Ant",          img:"ant.webp",          layoutKey:"animal_subtraction_ant_v3" },
 
-  spider:    { name:"Spider",    img:"spider.jpg",         layoutKey:"animal_subtraction_spider_pixel_v3" },
-  bird:      { name:"Bird",      img:"bird.jpg",           layoutKey:"animal_subtraction_bird_pixel_v3" },
-  snake:     { name:"Snake",     img:"snake.jpg",          layoutKey:"animal_subtraction_snake_pixel_v2" },
-  monkey:    { name:"Monkey",    img:"monkey.jpg",         layoutKey:"animal_subtraction_monkey_pixel_v3" },
+      spider:      { name:"Spider",       img:"spider.webp",       layoutKey:"animal_subtraction_spider_pixel_v3" },
+      bird:        { name:"Bird",         img:"bird.webp",         layoutKey:"animal_subtraction_bird_pixel_v3" },
+      snake:       { name:"Snake",        img:"snake.webp",        layoutKey:"animal_subtraction_snake_pixel_v2" },
+      monkey:      { name:"Monkey",       img:"monkey.webp",       layoutKey:"animal_subtraction_monkey_pixel_v3" },
 
-  millipede: { name:"Millipede", img:"millipede.jpg",      layoutKey:"animal_subtraction_millipede_pixel_v2" },
-  caterpillar:{name:"Caterpillar",img:"caterpillar.jpg",   layoutKey:"animal_subtraction_caterpillar_pixel_v3" },
+      millipede:   { name:"Millipede",    img:"millipede.webp",    layoutKey:"animal_subtraction_millipede_pixel_v2" },
+      caterpillar: { name:"Caterpillar",  img:"caterpillar.webp",  layoutKey:"animal_subtraction_caterpillar_pixel_v3" },
 
-  goat:      { name:"Goat",      img:"goat.jpg",           layoutKey:"animal_subtraction_goat_dist_v2" },
-  shark:     { name:"Shark",     img:"shark.jpg",          layoutKey:"animal_subtraction_shark_pixel_v4" },
-  elephant:  { name:"Elephant",  img:"elephant.jpg",       layoutKey:"animal_subtraction_elephant_dist_v2" },
+      goat:        { name:"Goat",         img:"goat.webp",         layoutKey:"animal_subtraction_goat_dist_v2" },
+      shark:       { name:"Shark",        img:"shark.webp",        layoutKey:"animal_subtraction_shark_pixel_v4" },
+      elephant:    { name:"Elephant",     img:"elephant.webp",     layoutKey:"animal_subtraction_elephant_dist_v2" },
 
-  bee:       { name:"Bee",       img:"bee.jpg",            layoutKey:"animal_subtraction_bee_dist_v2" },
+      bee:         { name:"Bee",          img:"bee.webp",          layoutKey:"animal_subtraction_bee_dist_v2" },
+      hummingbird: { name:"Humming Bird", img:"hummingbird.webp",  layoutKey:"animal_subtraction_hummingbird_pixel_v4" },
+      butterfly:   { name:"Butterfly",    img:"butterfly.webp",    layoutKey:"animal_subtraction_butterfly_pixel_v3" },
 
-  hummingbird:{name:"Humming Bird",img:"humming bird.jpg", layoutKey:"animal_subtraction_hummingbird_pixel_v4"},
+      custom:      { name:"Custom",       img:"",                  layoutKey:"animal_subtraction_custom_manualedges_v1" }
+    };
 
-  butterfly: { name:"Butterfly", img:"butterfly.jpg",      layoutKey:"animal_subtraction_butterfly_pixel_v3" },
+    const preloadedPuzzleImages = new Map();
 
-  custom:    { name:"Custom",    img:"",                   layoutKey:"animal_subtraction_custom_manualedges_v1" }
-};
+    function preloadSingleImage(src){
+      if(!src) return Promise.resolve(null);
+      if(preloadedPuzzleImages.has(src)) return Promise.resolve(preloadedPuzzleImages.get(src));
 
-    // ----------------------------
-    // State
-    // ----------------------------
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.decoding = "async";
+        img.loading = "eager";
+        img.fetchPriority = "high";
+
+        img.onload = async () => {
+          try{
+            if (typeof img.decode === "function") {
+              await img.decode().catch(() => {});
+            }
+          } catch {}
+          preloadedPuzzleImages.set(src, img);
+          resolve(img);
+        };
+
+        img.onerror = () => resolve(null);
+        img.src = src;
+      });
+    }
+
+    function preloadAllPuzzleImages(){
+      const jobs = Object.values(PUZZLES)
+        .filter(cfg => cfg.img)
+        .map(cfg => preloadSingleImage(cfg.img));
+      return Promise.all(jobs);
+    }
+
+    function setBackgroundImage(src, altText){
+      elBg.alt = altText || "Animal puzzle background";
+      elBg.decoding = "async";
+      elBg.fetchPriority = "high";
+      elBg.src = src;
+    }
+
     const state = {
       puzzleId: "dragonfly",
       layoutKey: PUZZLES.dragonfly.layoutKey,
@@ -1077,7 +1085,7 @@
       builder: {
         bgDataUrl: null,
         circleTargetCount: 7,
-        edgePickFromId: null, // for manual edge placement
+        edgePickFromId: null,
       },
 
       layoutMode: false,
@@ -1085,9 +1093,6 @@
       swapDrag: null,
     };
 
-    // ----------------------------
-    // Elements
-    // ----------------------------
     const elBoard = document.getElementById("board");
     const elBg = document.getElementById("bg");
     const elSvg = document.getElementById("edgeSvg");
@@ -1120,9 +1125,6 @@
     const elCopyLayoutBtn = document.getElementById("copyLayoutBtn");
     const elLayoutJson = document.getElementById("layoutJson");
 
-    // ----------------------------
-    // Helpers
-    // ----------------------------
     function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
     function genOdds(n){ return Array.from({length:n}, (_,i)=>1+i*2); }
     function genEvens(n){ return Array.from({length:n}, (_,i)=>2+i*2); }
@@ -1282,7 +1284,6 @@
       return current ?? null;
     }
 
-    // Nudge midpoint token away from circles when it would overlap (Starfish now; extend later)
     function computeTokenPositionForEdge(e, mid){
       let px = mid.x;
       let py = mid.y;
@@ -1345,9 +1346,6 @@
       return { x: Math.round(best.x / sx), y: Math.round(best.y / sy) };
     }
 
-    // ----------------------------
-    // Custom builder: manual edges helpers
-    // ----------------------------
     function normPair(a,b){ return (a < b) ? `${a}|${b}` : `${b}|${a}`; }
 
     function findEdgeIndexBetween(a,b){
@@ -1356,7 +1354,6 @@
     }
 
     function normalizeEdges(){
-      // keep insertion order, but re-assign ids/rids sequentially so game tokens remain sane
       state.edges = state.edges.map(e => ({ a:e.a, b:e.b }));
       state.edges = state.edges.map((e, i) => ({
         id: `e${i+1}`,
@@ -1379,7 +1376,6 @@
         adj.get(e.b).push(e.a);
       }
 
-      // connected?
       let connected = true;
       if(n > 0){
         const seen = new Set();
@@ -1395,7 +1391,6 @@
         connected = (seen.size === n);
       }
 
-      // cycle? (undirected)
       const parent = new Map();
       function dfs(u, p){
         parent.set(u, p);
@@ -1416,7 +1411,6 @@
     }
 
     function customEdgesValidForPlay(){
-      // Keep original custom-rule feel: one connected shape with no closed loops (tree)
       const { n, m, connected, hasCycle } = customGraphStats();
       if(n < 2) return false;
       if(m !== n - 1) return false;
@@ -1445,9 +1439,6 @@
       elCreatePuzzleBtn.textContent = "Create puzzle";
     }
 
-    // ----------------------------
-    // Rendering
-    // ----------------------------
     function clearBoardOverlays(){
       elBoard.querySelectorAll(".node, .midDrop, .midToken").forEach(el => el.remove());
     }
@@ -1518,7 +1509,6 @@
         div.style.left = (n.x/10) + "%";
         div.style.top  = (n.y/10) + "%";
 
-        // Custom builder connect mode: show empty circles only + highlight pick
         const isBuilderConnect = (state.puzzleId === "custom" && state.mode === "builder" && state.builderStage === "connectEdges");
         if(isBuilderConnect){
           div.classList.add("empty");
@@ -1541,9 +1531,7 @@
           div.classList.add("swap");
         }
 
-        // Click behavior
         div.addEventListener("click", () => {
-          // Custom: connect edges by clicking two circles
           if(isBuilderConnect){
             const from = state.builder.edgePickFromId;
             if(!from){
@@ -1559,13 +1547,10 @@
 
             const idx = findEdgeIndexBetween(from, n.id);
             if(idx >= 0){
-              // remove existing edge
               state.edges.splice(idx, 1);
               normalizeEdges();
             } else {
-              // add edge (respect tree rule: don't allow cycles)
               const { hasCycle } = (() => {
-                // simulate add
                 const tmp = state.edges.map(e => ({a:e.a, b:e.b}));
                 tmp.push({a:from, b:n.id});
                 const ids = state.circles.map(c=>c.id);
@@ -1601,7 +1586,6 @@
             return;
           }
 
-          // Normal play-mode odd cycling
           if(state.layoutMode) return;
           if(state.mode !== "play") return;
           if(allOddsSet()) return;
@@ -1618,7 +1602,6 @@
           renderAll();
         });
 
-        // Layout mode dragging
         div.addEventListener("pointerdown", (ev) => {
           if(!state.layoutMode) return;
           ev.preventDefault();
@@ -1653,7 +1636,6 @@
           state.dragging = null;
         });
 
-        // Play-mode swap dragging (only when all odds are set)
         div.addEventListener("pointerdown", (ev) => {
           if(state.layoutMode) return;
           if(state.mode !== "play") return;
@@ -1837,9 +1819,6 @@
       updateCustomCreateButton();
     }
 
-    // ----------------------------
-    // Game actions
-    // ----------------------------
     function resetGame(){
       hideWinOverlay(true);
       state.submitted = false;
@@ -1863,9 +1842,6 @@
       }
     }
 
-    // ----------------------------
-    // Puzzle switching + custom builder
-    // ----------------------------
     function applyLayoutFromDefaults(puzzleId){
       const base = DEFAULT_LAYOUTS[puzzleId] || DEFAULT_LAYOUTS.dragonfly;
       state.circles = base.circles.map(n => ({...n}));
@@ -1988,17 +1964,14 @@
       const cfg = PUZZLES[puzzleId];
       document.title = `Animal Subtraction - ${cfg.name}`;
       elBg.classList.remove("hidden");
-      elBg.src = cfg.img;
-      elBg.alt = cfg.name;
       elBoard.classList.remove("blank");
+
+      setBackgroundImage(cfg.img, cfg.name);
 
       loadLayoutFromLocalStorage();
       resetGame();
     }
 
-    // ----------------------------
-    // Events
-    // ----------------------------
     elHamburger.addEventListener("click", () => {
       if(elSidePanel.classList.contains("open")) closeMenu();
       else openMenu();
@@ -2069,8 +2042,7 @@
         state.builder.bgDataUrl = dataUrl;
 
         elBg.classList.remove("hidden");
-        elBg.src = dataUrl;
-        elBg.alt = "Custom image";
+        setBackgroundImage(dataUrl, "Custom image");
         elBoard.classList.remove("blank");
 
         state.builderStage = "chooseCount";
@@ -2105,14 +2077,12 @@
       renderAll();
     });
 
-    // Create puzzle: now depends on builder stage
     elCreatePuzzleBtn.addEventListener("click", () => {
       if(state.puzzleId !== "custom") return;
       if(!state.builder.bgDataUrl) return;
 
       if(state.builderStage === "connectEdges"){
         if(!customEdgesValidForPlay()) return;
-        // Save and move to play
         saveLayoutToLocalStorage();
         exitBuilderToPlay();
         return;
@@ -2130,21 +2100,18 @@
       enterCustomBuilderFresh();
     });
 
-    // Custom board click: place circles ONLY in placeCircles stage
     elBoard.addEventListener("click", (ev) => {
       if(state.puzzleId !== "custom") return;
       if(state.mode !== "builder") return;
       if(state.layoutMode) return;
 
       if(state.builderStage !== "placeCircles") return;
-
       if(state.circles.length >= state.builder.circleTargetCount) return;
 
       const pt = boardPointTo1000(ev);
       const id = `b${state.circles.length + 1}`;
       state.circles.push({ id, x: pt.x, y: pt.y });
 
-      // circles only (no auto edges)
       const remaining = state.builder.circleTargetCount - state.circles.length;
 
       if(remaining <= 0){
@@ -2159,11 +2126,12 @@
       renderAll();
     });
 
-    // ----------------------------
-    // Init
-    // ----------------------------
-    (function init(){
+    (async function init(){
       elPuzzleSelect.value = "dragonfly";
+
+      preloadAllPuzzleImages().catch(() => {});
+      await preloadSingleImage(PUZZLES.dragonfly.img).catch(() => {});
+
       setPuzzle("dragonfly");
       closeMenu();
       updateLayoutButtons();
